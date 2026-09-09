@@ -1,0 +1,464 @@
+    }
+
+    #browser-video {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      background: #000;
+    }
+
+    #mode-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 30;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      box-sizing: border-box;
+      background: #10100d;
+      color: #e9e0c8;
+    }
+
+    .homepage-decor-ready #mode-screen {
+      background: #10100d url("/static/f6d3d8d6ba75ed3f/assets/splash/Splash_Siltstriker.jpg") center / cover;
+    }
+
+    #mode-screen::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(8, 7, 5, 0.76);
+      pointer-events: none;
+    }
+
+    #mode-screen[hidden] {
+      display: none;
+    }
+
+    #mode-panel {
+      position: relative;
+      isolation: isolate;
+      display: grid;
+      gap: 18px;
+      width: min(520px, 100%);
+      overflow: hidden;
+      border: 1px solid var(--overlay-border);
+      padding: 22px;
+      box-sizing: border-box;
+      background: #0b0805;
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.55), inset 0 0 0 1px rgba(0, 0, 0, 0.58);
+    }
+
+    #mode-panel::before,
+    #mode-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    #mode-panel::before {
+      background: #8d6837;
+      filter: saturate(0.72) contrast(1.04) brightness(0.58);
+    }
+
+    .homepage-decor-ready #mode-panel::before {
+      background-image: url("/static/f6d3d8d6ba75ed3f/assets/ui/parchment-lobby.jpg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #mode-panel::after {
+      background: rgba(7, 5, 3, 0.56);
+      box-shadow: inset 0 0 0 7px rgba(45, 25, 11, 0.5), inset 0 0 0 8px rgba(214, 189, 121, 0.22);
+    }
+
+    #mode-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    #mode-title {
+      margin: 0;
+      color: var(--overlay-gold);
+      font: 700 26px/30px var(--overlay-display-font);
+      text-align: center;
+      text-shadow: 0 1px 0 #000;
+    }
+
+    #mode-actions {
+      display: grid;
+      gap: 10px;
+    }
+
+    #mode-actions button {
+      border: 1px solid var(--overlay-border);
+      padding: 10px 12px;
+      background: var(--overlay-bg-strong);
+      color: #f1dfaa;
+      font: 600 14px/18px var(--overlay-display-font);
+      cursor: pointer;
+      transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    }
+
+    #mode-actions button:hover:not(:disabled),
+    #mode-actions button:focus-visible:not(:disabled) {
+      border-color: #f1dfaa;
+      background: var(--overlay-hover);
+      outline: none;
+    }
+
+    #mode-actions button:disabled {
+      cursor: default;
+      opacity: 0.54;
+    }
+
+    #mode-status {
+      min-height: 18px;
+      color: var(--overlay-muted);
+      font: 500 14px/18px var(--overlay-text-font);
+      text-align: center;
+    }
+
+    #mode-status:empty {
+      display: none;
+    }
+
+    #ribbon-dock {
+      display: contents;
+    }
+
+    #save-tools {
+      position: fixed;
+      top: 86px;
+      right: 0;
+      z-index: 110;
+      pointer-events: auto;
+      isolation: isolate;
+      transition: top 140ms ease;
+    }
+
+    #lobby-tools {
+      position: fixed;
+      top: 132px;
+      right: 0;
+      z-index: 110;
+      pointer-events: auto;
+      isolation: isolate;
+      transition: top 140ms ease;
+    }
+
+    #account-tools {
+      position: fixed;
+      top: 178px;
+      right: 0;
+      z-index: 110;
+      pointer-events: auto;
+      isolation: isolate;
+      transition: top 140ms ease;
+    }
+
+    #chat-tools {
+      position: fixed;
+      top: 224px;
+      right: 0;
+      z-index: 110;
+      pointer-events: auto;
+      isolation: isolate;
+      transition: top 140ms ease;
+    }
+
+    #help-tools {
+      position: fixed;
+      top: 270px;
+      right: 0;
+      z-index: 110;
+      pointer-events: auto;
+      isolation: isolate;
+      transition: top 140ms ease;
+    }
+
+    #shell[data-status-active="true"] #save-tools,
+    #shell[data-status-active="true"] #lobby-tools,
+    #shell[data-status-active="true"] #account-tools,
+    #shell[data-status-active="true"] #chat-tools,
+    #shell[data-status-active="true"] #help-tools {
+      transform: translateY(18px);
+    }
+
+    #save-tools[hidden],
+    #lobby-tools[hidden],
+    #account-tools[hidden],
+    #chat-tools[hidden],
+    #help-tools[hidden] {
+      display: none;
+    }
+
+    #command-render-quality {
+      display: grid;
+      grid-template-columns: repeat(3, 42px);
+      width: 126px;
+      min-height: 30px;
+      gap: 0;
+      border: 1px solid var(--overlay-border-soft);
+      background: rgba(5, 4, 3, 0.64);
+    }
+
+    #command-toggle,
+    #lobby-toggle,
+    #account-toggle,
+    #chat-toggle,
+    #help-toggle {
+      position: relative;
+      display: flex;
+      box-sizing: border-box;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 9px;
+      width: 130px;
+      min-height: 38px;
+      border: 1px solid rgba(176, 143, 74, 0.68);
+      border-right: 0;
+      padding: 7px 13px 7px 9px;
+      overflow: hidden;
+      transform: translateX(88px);
+      background: rgba(13, 9, 5, 0.94);
+      box-shadow:
+        -4px 6px 14px rgba(0, 0, 0, 0.34),
+        inset 0 0 0 1px rgba(0, 0, 0, 0.64),
+        inset 0 1px 0 rgba(241, 223, 170, 0.08),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.58);
+      color: #eadaa8;
+      font: 700 13px/15px var(--overlay-display-font);
+      text-decoration: none;
+      text-shadow: 0 1px 0 #000;
+      cursor: pointer;
+      pointer-events: auto;
+      border-radius: 3px 0 0 3px;
+      transition:
+        transform 150ms ease,
+        background-color 120ms ease,
+        border-color 120ms ease,
+        color 120ms ease,
+        filter 120ms ease;
+    }
+
+    #command-toggle::before,
+    #lobby-toggle::before,
+    #account-toggle::before,
+    #chat-toggle::before,
+    #help-toggle::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      border-left: 2px solid rgba(221, 192, 117, 0.5);
+      border-top: 1px solid rgba(244, 225, 166, 0.1);
+      border-bottom: 1px solid rgba(0, 0, 0, 0.42);
+      box-shadow:
+        inset 0 8px 12px rgba(244, 225, 166, 0.05),
+        inset 0 -12px 18px rgba(0, 0, 0, 0.28);
+      pointer-events: none;
+    }
+
+    #command-toggle::after,
+    #lobby-toggle::after,
+    #account-toggle::after,
+    #chat-toggle::after,
+    #help-toggle::after {
+      display: none;
+    }
+
+    #command-toggle:hover:not(:disabled),
+    #command-toggle:focus-visible,
+    #command-toggle[aria-expanded="true"],
+    #lobby-tools[data-open="true"] #lobby-toggle,
+    #lobby-toggle:hover:not(:disabled),
+    #lobby-toggle:focus-visible,
+    #lobby-toggle[aria-expanded="true"],
+    #account-tools[data-open="true"] #account-toggle,
+    #account-toggle:hover:not(:disabled),
+    #account-toggle:focus-visible,
+    #account-toggle[aria-expanded="true"],
+    #chat-tools[data-open="true"] #chat-toggle,
+    #chat-toggle:hover:not(:disabled),
+    #chat-toggle:focus-visible,
+    #chat-toggle[aria-expanded="true"],
+    #help-tools[data-open="true"] #help-toggle,
+    #help-toggle:hover:not(:disabled),
+    #help-toggle:focus-visible,
+    #help-toggle[aria-expanded="true"] {
+      transform: translateX(0);
+    }
+
+    #command-toggle-label,
+    #lobby-toggle-label,
+    #account-toggle-label,
+    #chat-toggle-label,
+    #help-toggle-label {
+      position: relative;
+      z-index: 1;
+      flex: 0 1 auto;
+      min-width: 0;
+      text-align: left;
+      color: #f4e9c8;
+      white-space: nowrap;
+    }
+
+    #command-toggle-state,
+    #lobby-toggle-state,
+    #account-toggle-state,
+    #chat-toggle-state,
+    #help-toggle-state {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      overflow: hidden;
+      clip-path: inset(50%);
+      white-space: nowrap;
+    }
+
+    .ribbon-icon {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      flex: 0 0 20px;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      border: 1px solid rgba(197, 161, 83, 0.56);
+      background: rgba(6, 5, 4, 0.54);
+      color: #f1dfaa;
+      font: 700 12px/1 var(--overlay-display-font);
+      box-shadow: inset 0 0 0 1px rgba(0, 0, 0, 0.62);
+    }
+
+    .ribbon-icon::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      display: grid;
+      place-items: center;
+      box-sizing: border-box;
+      text-align: center;
+    }
+
+    .ribbon-icon::after {
+      display: none;
+    }
+
+    .deck-icon::before {
+      content: "T";
+    }
+
+    .lobby-icon::before {
+      content: "S";
+    }
+
+    .account-icon::before {
+      content: "A";
+    }
+
+    .chat-icon::before {
+      content: "C";
+    }
+
+    .help-icon::before {
+      content: "?";
+    }
+
+    #command-render-quality button {
+      min-width: 0;
+      min-height: 30px;
+      border: 0;
+      border-right: 1px solid var(--overlay-border-soft);
+      padding-inline: 7px;
+      background: transparent;
+      color: var(--overlay-text);
+      cursor: pointer;
+      font: 600 12px/14px var(--overlay-text-font);
+    }
+
+    #command-render-quality button:last-child {
+      border-right: 0;
+    }
+
+    #command-render-quality button[aria-pressed="true"] {
+      background: rgba(54, 34, 14, 0.72);
+      color: #fff4c7;
+    }
+
+    #command-toggle[aria-expanded="true"] {
+      border-color: #f1dfaa;
+      color: #fff4c7;
+    }
+
+    #lobby-toggle[aria-expanded="true"],
+    #account-toggle[aria-expanded="true"],
+    #chat-toggle[aria-expanded="true"],
+    #help-toggle[aria-expanded="true"] {
+      border-color: #f1dfaa;
+      color: #fff4c7;
+    }
+
+    #command-toggle.pending .ribbon-icon {
+      color: #fff0b6;
+      border-color: #d7b24f;
+    }
+
+    #lobby-toggle.online .ribbon-icon {
+      color: #cfe2a2;
+      border-color: #78945b;
+    }
+
+    #account-toggle.online .ribbon-icon,
+    #chat-toggle.online .ribbon-icon {
+      color: #cfe2a2;
+      border-color: #78945b;
+    }
+
+    #lobby-toggle.offline .ribbon-icon {
+      color: #d9b18e;
+      border-color: #7f5236;
+    }
+
+    #account-toggle.offline .ribbon-icon,
+    #chat-toggle.offline .ribbon-icon {
+      color: #d9b18e;
+      border-color: #7f5236;
+    }
+
+    #command-toggle:disabled,
+    #lobby-toggle:disabled,
+    #account-toggle:disabled,
+    #chat-toggle:disabled,
+    #help-toggle:disabled {
+      cursor: default;
+      opacity: 0.5;
+    }
+
+    #command-toggle:hover:not(:disabled),
+    #command-toggle:focus-visible,
+    #lobby-toggle:hover:not(:disabled),
+    #lobby-toggle:focus-visible,
+    #account-toggle:hover:not(:disabled),
+    #account-toggle:focus-visible,
+    #chat-toggle:hover:not(:disabled),
+    #chat-toggle:focus-visible,
+    #help-toggle:hover:not(:disabled),
+    #help-toggle:focus-visible {
+      border-color: #f1dfaa;
+      filter: brightness(1.08);
+      outline: none;
+    }
+
+    #save-toast {
+      position: fixed;
+      right: 10px;
+      top: 56px;
+      z-index: 130;
+      max-width: min(360px, calc(100vw - 20px));
+      padding: 8px 10px;
+      border: 1px solid var(--overlay-border);
+      background: var(--overlay-bg-strong);

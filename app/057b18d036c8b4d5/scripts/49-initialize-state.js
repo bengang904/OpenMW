@@ -1,0 +1,9 @@
+    browserRenderProfile = readBrowserRenderProfile();
+    browserBaseRenderWidth = browserRenderProfiles[browserRenderProfile].width;
+    browserBaseRenderHeight = browserRenderProfiles[browserRenderProfile].height;
+    browserTargetRenderPixels = browserBaseRenderWidth * browserBaseRenderHeight;
+    touchControlsMode = readTouchControlsMode();
+    touchLookSensitivity = readTouchLookSensitivity();
+    browserModSelection = readBrowserModSelection();
+    lobbyState = readLobbySessionState();
+    lobbyOwnedInstances = readLobbyOwnedInstances();

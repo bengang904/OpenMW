@@ -1,0 +1,179 @@
+    }
+
+    #chat-send:hover:not(:disabled),
+    #chat-send:focus-visible:not(:disabled) {
+      border-color: #f1dfaa;
+      background: rgba(38, 25, 12, 0.82);
+      outline: none;
+    }
+
+    .command-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      min-height: 28px;
+    }
+
+    .command-label {
+      min-width: 0;
+      color: var(--overlay-text);
+    }
+
+    .command-value,
+    #command-mod-status {
+      color: var(--overlay-muted);
+    }
+
+    #command-render-size {
+      white-space: nowrap;
+    }
+
+    #command-render-quality {
+      width: 126px;
+    }
+
+    .mod-toggle-row {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 12px;
+      align-items: center;
+      padding: 9px 0;
+      border-top: 1px solid var(--overlay-border-soft);
+    }
+
+    .mod-toggle-row:first-child {
+      border-top: 0;
+      padding-top: 0;
+    }
+
+    .mod-title {
+      color: #f4e9c8;
+      font-weight: 700;
+    }
+
+    .mod-description {
+      grid-column: 1 / -1;
+      color: #cfc2a5;
+    }
+
+    .mod-status {
+      color: #bda970;
+    }
+
+    .mod-toggle-row input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: #b89e4b;
+      cursor: pointer;
+    }
+
+    .mod-toggle-row input[type="checkbox"]:disabled {
+      cursor: default;
+    }
+
+    #loading-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 14;
+      display: grid;
+      place-items: center;
+      overflow: hidden;
+      background: #000;
+      pointer-events: none;
+    }
+
+    #loading-overlay[hidden] {
+      display: none;
+    }
+
+    #loading-splash {
+      width: min(100vw, calc(100vh * 4 / 3));
+      height: min(100vh, calc(100vw * 3 / 4));
+      display: block;
+      object-fit: fill;
+      background: #000;
+    }
+
+    #loading-panel {
+      position: absolute;
+      left: 50%;
+      bottom: max(24px, 7vh);
+      isolation: isolate;
+      width: min(380px, calc(100vw - 32px));
+      transform: translateX(-50%);
+      box-sizing: border-box;
+      overflow: hidden;
+      border: 1px solid var(--overlay-border);
+      padding: 8px 10px 10px;
+      background: #0b0805;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.48), inset 0 0 0 1px rgba(0, 0, 0, 0.62);
+    }
+
+    #loading-panel::before,
+    #loading-panel::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    #loading-panel::before {
+      background: #8d6837;
+      filter: saturate(0.72) contrast(1.04) brightness(0.48);
+    }
+
+    .homepage-decor-ready #loading-panel::before {
+      background-image: url("/static/f6d3d8d6ba75ed3f/assets/ui/parchment-lobby.jpg");
+      background-position: center;
+      background-size: cover;
+      background-repeat: no-repeat;
+    }
+
+    #loading-panel::after {
+      background: rgba(6, 4, 3, 0.72);
+    }
+
+    #loading-panel > * {
+      position: relative;
+      z-index: 1;
+    }
+
+    #loading-text {
+      min-width: 0;
+      margin-bottom: 7px;
+      color: var(--overlay-text);
+      font: 600 14px/17px var(--overlay-text-font);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      text-align: center;
+    }
+
+    #loading-bar {
+      position: relative;
+      height: 11px;
+      overflow: hidden;
+      border: 1px solid var(--overlay-border);
+      background: rgba(5, 4, 3, 0.78);
+    }
+
+    #loading-bar span {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: -45%;
+      width: 45%;
+      background: #b89e4b;
+      animation: loading-bar-sweep 1.35s linear infinite;
+    }
+
+    @keyframes loading-bar-sweep {
+      from {
+        transform: translateX(0);
+      }
+
+      to {
+        transform: translateX(325%);
+      }
+    }

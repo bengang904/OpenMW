@@ -1,0 +1,367 @@
+    }
+
+    #lobby-create-error[hidden],
+    #lobby-direct-error[hidden],
+    #account-error[hidden],
+    #chat-error[hidden] {
+      display: none;
+    }
+
+    #lobby-instance-list {
+      display: grid;
+      gap: 8px;
+      align-content: start;
+      min-height: 0;
+      padding: 8px;
+      border: 1px solid rgba(149, 121, 68, 0.36);
+      background: rgba(5, 4, 3, 0.32);
+    }
+
+    #lobby-instance-list .lobby-instance-meta {
+      padding: 12px;
+    }
+
+    .lobby-instance {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 148px;
+      grid-template-rows: 22px 36px 34px;
+      gap: 5px 12px;
+      height: 122px;
+      box-sizing: border-box;
+      border: 1px solid rgba(149, 121, 68, 0.46);
+      border-radius: 3px;
+      padding: 10px;
+      overflow: hidden;
+      background: rgba(12, 8, 4, 0.58);
+      box-shadow:
+        inset 0 0 0 1px rgba(0, 0, 0, 0.42),
+        0 1px 0 rgba(232, 202, 132, 0.05);
+      transition: background-color 120ms ease, border-color 120ms ease;
+    }
+
+    .lobby-instance:last-child {
+      border-bottom: 1px solid rgba(149, 121, 68, 0.46);
+    }
+
+    .lobby-instance:hover {
+      border-color: rgba(196, 164, 91, 0.68);
+      background: rgba(25, 16, 8, 0.66);
+    }
+
+    .lobby-instance-head {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      gap: 9px;
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .lobby-instance-name {
+      min-width: 0;
+      color: #efd89a;
+      font: 600 16px/20px var(--overlay-display-font);
+      overflow: hidden;
+      overflow-wrap: normal;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .lobby-instance-status {
+      border: 0;
+      padding: 2px 6px;
+      background: rgba(18, 12, 6, 0.58);
+      color: #b9c99a;
+      font: 700 12px/15px var(--overlay-text-font);
+      letter-spacing: 0;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .lobby-instance-meta,
+    #lobby-status {
+      color: #c9ba91;
+    }
+
+    .lobby-instance-description {
+      grid-column: 1;
+      min-height: 0;
+      max-height: 36px;
+      color: #d8c9a5;
+      font-size: 14px;
+      line-height: 18px;
+      overflow: hidden;
+      overflow-wrap: anywhere;
+      display: -webkit-box;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .lobby-instance-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 2px 12px;
+      grid-column: 1;
+      max-height: 34px;
+      overflow: hidden;
+      align-content: start;
+    }
+
+    .lobby-stat {
+      display: flex;
+      align-items: baseline;
+      gap: 4px;
+      min-width: 0;
+      overflow: hidden;
+      border-left: 0;
+      padding: 0;
+      background: transparent;
+    }
+
+    .lobby-stat span {
+      display: inline;
+      color: #ad9e76;
+      font-size: 12px;
+      line-height: 16px;
+      white-space: nowrap;
+    }
+
+    .lobby-stat span::after {
+      content: ":";
+    }
+
+    .lobby-stat strong {
+      display: inline;
+      min-width: 0;
+      color: #e6d4ad;
+      font-weight: 400;
+      font-size: 13px;
+      line-height: 17px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .lobby-join-controls {
+      display: grid;
+      grid-column: 2;
+      grid-row: 1 / span 3;
+      grid-template-columns: 1fr;
+      gap: 6px;
+      align-self: center;
+      justify-self: stretch;
+      min-width: 0;
+      min-height: 0;
+    }
+
+    .lobby-join-controls.password-required {
+      grid-template-rows: 30px 38px;
+      min-width: 0;
+    }
+
+    .lobby-join-controls input {
+      min-width: 0;
+      box-sizing: border-box;
+      border: 1px solid rgba(120, 96, 52, 0.72);
+      padding: 5px 8px;
+      background: rgba(5, 4, 3, 0.78);
+      color: #eadbb8;
+      font-size: 13px;
+      line-height: 17px;
+    }
+
+    .lobby-instance button {
+      width: 100%;
+      height: auto;
+      min-height: 36px;
+      border: 1px solid rgba(149, 121, 68, 0.58);
+      padding: 7px 10px;
+      background: rgba(12, 8, 4, 0.78);
+      color: #e4d6b2;
+      cursor: pointer;
+      display: grid;
+      place-items: center;
+      text-align: center;
+      font: 700 14px/18px var(--overlay-display-font);
+      transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+    }
+
+    .lobby-instance button:hover:not(:disabled),
+    .lobby-instance button:focus-visible:not(:disabled) {
+      border-color: #f1dfaa;
+      outline: none;
+    }
+
+    .lobby-instance button:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    #lobby-join-details[hidden] {
+      display: none;
+    }
+
+    #lobby-join-details {
+      display: grid;
+      grid-row: 1;
+      grid-column: 1 / -1;
+      grid-template-columns: minmax(0, 1fr) minmax(132px, auto);
+      gap: 6px 12px;
+      border: 1px solid rgba(149, 121, 68, 0.42);
+      padding: 9px 10px;
+      background: rgba(7, 5, 3, 0.56);
+      box-shadow: none;
+    }
+
+    .lobby-join-title {
+      grid-column: 1 / -1;
+      color: #efd89a;
+      font: 600 13px/16px var(--overlay-display-font);
+    }
+
+    .lobby-join-row {
+      display: grid;
+      grid-template-columns: auto minmax(0, 1fr);
+      gap: 6px;
+      color: #d2c7aa;
+      font-size: 12px;
+      line-height: 15px;
+    }
+
+    .lobby-join-row code {
+      color: #f4e9c8;
+      font: 12px/16px "Courier New", monospace;
+      overflow-wrap: anywhere;
+    }
+
+    #lobby-create,
+    #lobby-session-save,
+    #lobby-refresh,
+    #account-login,
+    #account-register,
+    #account-logout,
+    #account-save-profile,
+    #account-change-password,
+    #account-download-recovery,
+    #account-recover,
+    #cloud-save-upload,
+    .cloud-save-actions button,
+    #chat-send,
+    #lobby-direct-join,
+    #lobby-copy-connection,
+    #lobby-play-browser,
+    #lobby-shutdown-host {
+      width: 100%;
+      border: 1px solid rgba(149, 121, 68, 0.58);
+      padding: 7px 9px;
+      background: rgba(12, 8, 4, 0.78);
+      color: #e4d6b2;
+      cursor: pointer;
+      box-shadow: none;
+      transition: background-color 120ms ease, border-color 120ms ease, color 120ms ease;
+      font-weight: 600;
+    }
+
+    #lobby-create {
+      border-color: rgba(122, 146, 88, 0.66);
+      background: rgba(19, 33, 13, 0.8);
+      color: #e5eec2;
+    }
+
+    #lobby-shutdown-host,
+    .lobby-instance button.lobby-shutdown-button {
+      border-color: rgba(166, 82, 55, 0.72);
+      background: rgba(45, 15, 10, 0.78);
+      color: #efcfaa;
+    }
+
+    #lobby-create:disabled,
+    #lobby-session-save:disabled,
+    #lobby-refresh:disabled,
+    #account-login:disabled,
+    #account-register:disabled,
+    #account-logout:disabled,
+    #account-save-profile:disabled,
+    #account-change-password:disabled,
+    #account-download-recovery:disabled,
+    #account-recover:disabled,
+    #cloud-save-upload:disabled,
+    .cloud-save-actions button:disabled,
+    #chat-send:disabled,
+    #lobby-direct-join:disabled,
+    #lobby-copy-connection:disabled,
+    #lobby-play-browser:disabled,
+    #lobby-shutdown-host:disabled {
+      cursor: default;
+      opacity: 0.55;
+    }
+
+    #lobby-create:hover:not(:disabled),
+    #lobby-create:focus-visible:not(:disabled),
+    #lobby-session-save:hover:not(:disabled),
+    #lobby-session-save:focus-visible:not(:disabled),
+    #lobby-refresh:hover:not(:disabled),
+    #lobby-refresh:focus-visible:not(:disabled),
+    #account-login:hover:not(:disabled),
+    #account-login:focus-visible:not(:disabled),
+    #account-register:hover:not(:disabled),
+    #account-register:focus-visible:not(:disabled),
+    #account-logout:hover:not(:disabled),
+    #account-logout:focus-visible:not(:disabled),
+    #account-save-profile:hover:not(:disabled),
+    #account-save-profile:focus-visible:not(:disabled),
+    #account-change-password:hover:not(:disabled),
+    #account-change-password:focus-visible:not(:disabled),
+    #account-download-recovery:hover:not(:disabled),
+    #account-download-recovery:focus-visible:not(:disabled),
+    #account-recover:hover:not(:disabled),
+    #account-recover:focus-visible:not(:disabled),
+    #cloud-save-upload:hover:not(:disabled),
+    #cloud-save-upload:focus-visible:not(:disabled),
+    .cloud-save-actions button:hover:not(:disabled),
+    .cloud-save-actions button:focus-visible:not(:disabled),
+    #chat-send:hover:not(:disabled),
+    #chat-send:focus-visible:not(:disabled),
+    #lobby-direct-join:hover:not(:disabled),
+    #lobby-direct-join:focus-visible:not(:disabled),
+    #lobby-copy-connection:hover:not(:disabled),
+    #lobby-copy-connection:focus-visible:not(:disabled),
+    #lobby-play-browser:hover:not(:disabled),
+    #lobby-play-browser:focus-visible:not(:disabled),
+    #lobby-shutdown-host:hover:not(:disabled),
+    #lobby-shutdown-host:focus-visible:not(:disabled) {
+      border-color: #f1dfaa;
+      background: rgba(38, 25, 12, 0.82);
+      outline: none;
+    }
+
+    .lobby-host-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .lobby-host-grid .wide {
+      grid-column: 1 / -1;
+    }
+
+    .lobby-direct-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(180px, 0.6fr) minmax(140px, auto);
+      gap: 8px;
+      align-items: end;
+    }
+
+    .command-section {
+      border: 1px solid rgba(149, 121, 68, 0.36);
+      background: rgba(5, 4, 3, 0.52);
+      box-shadow: none;
+    }
+
+    .command-section h2 {
+      margin: 0;
+      padding: 8px 10px;
+      border-bottom: 0;
+      background: rgba(7, 5, 3, 0.34);
+      color: #efd89a;
+      font: 600 14px/18px var(--overlay-display-font);

@@ -1,0 +1,511 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#10100d">
+  <title>Morrowind App</title>
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="/static/f6d3d8d6ba75ed3f/assets/morrowind-app.png">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/00-fonts-tokens-base.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/10-touch-video.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/20-home-ribbon.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/30-panels-common.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/40-lobby.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/50-account-chat-help.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/60-tools-loading.css">
+  <link rel="stylesheet" href="/app/057b18d036c8b4d5/styles/90-responsive.css">
+</head>
+<body>
+  <main id="shell">
+    <div id="topbar" hidden>
+      <img src="/static/f6d3d8d6ba75ed3f/assets/morrowind-app.png" alt="">
+      <div id="status">Downloading...</div>
+      <progress id="progress" hidden max="100" value="0"></progress>
+    </div>
+    <div id="canvas-wrap">
+      <canvas id="canvas" tabindex="0" oncontextmenu="event.preventDefault()"></canvas>
+    </div>
+    <div id="touch-controls" hidden aria-hidden="true">
+      <div id="touch-move-zone" class="touch-surface" data-touch-control="move" aria-hidden="true">
+        <div id="touch-stick-base"></div>
+        <div id="touch-stick-thumb"></div>
+      </div>
+      <div id="touch-look-zone" class="touch-surface" data-touch-control="look" aria-hidden="true"></div>
+      <div id="touch-action-zone" aria-hidden="true">
+        <button id="touch-attack" class="touch-action-button" type="button" tabindex="-1">Atk</button>
+        <button id="touch-use" class="touch-action-button" type="button" tabindex="-1">Use</button>
+        <button id="touch-confirm" class="touch-action-button" type="button" tabindex="-1" aria-label="Confirm selection" title="Confirm selection">OK</button>
+        <button id="touch-jump" class="touch-action-button" type="button" tabindex="-1">Jump</button>
+        <button id="touch-menu" class="touch-action-button" type="button" tabindex="-1">Menu</button>
+        <button id="touch-chat" class="touch-action-button" type="button" tabindex="-1">Chat</button>
+        <button id="touch-escape" class="touch-action-button" type="button" tabindex="-1">Esc</button>
+      </div>
+    </div>
+    <div id="video-overlay" hidden>
+      <video id="browser-video" playsinline></video>
+    </div>
+    <section id="mode-screen" aria-labelledby="mode-title">
+      <div id="mode-panel">
+        <h1 id="mode-title">Morrowind App</h1>
+        <div id="mode-actions">
+          <button id="mode-single-player" type="button">Single Player</button>
+          <button id="mode-multiplayer" type="button">Multiplayer</button>
+        </div>
+        <div id="mode-status" aria-live="polite"></div>
+      </div>
+    </section>
+    <div id="ribbon-dock" aria-label="Site tools">
+      <div id="save-tools" hidden>
+        <button id="command-toggle" type="button" title="Open tools" aria-controls="command-panel" aria-expanded="false">
+          <span class="ribbon-icon deck-icon" aria-hidden="true"></span>
+          <span id="command-toggle-label">Tools</span>
+          <span id="command-toggle-state">Med</span>
+        </button>
+      </div>
+      <div id="lobby-tools" hidden>
+        <button id="lobby-toggle" class="offline" type="button" title="Open servers" aria-controls="lobby-panel" aria-expanded="false">
+          <span class="ribbon-icon lobby-icon" aria-hidden="true"></span>
+          <span id="lobby-toggle-label">Servers</span>
+          <span id="lobby-toggle-state">Off</span>
+        </button>
+      </div>
+      <div id="account-tools" hidden>
+        <button id="account-toggle" class="offline" type="button" title="Open account" aria-controls="account-panel" aria-expanded="false">
+          <span class="ribbon-icon account-icon" aria-hidden="true"></span>
+          <span id="account-toggle-label">Account</span>
+          <span id="account-toggle-state">Out</span>
+        </button>
+      </div>
+      <div id="chat-tools" hidden>
+        <button id="chat-toggle" class="offline" type="button" title="Open chat" aria-controls="chat-panel" aria-expanded="false">
+          <span class="ribbon-icon chat-icon" aria-hidden="true"></span>
+          <span id="chat-toggle-label">Chat</span>
+          <span id="chat-toggle-state">Off</span>
+        </button>
+      </div>
+      <div id="help-tools" hidden>
+        <button id="help-toggle" type="button" title="Open help" aria-controls="help-panel" aria-expanded="false">
+          <span class="ribbon-icon help-icon" aria-hidden="true"></span>
+          <span id="help-toggle-label">Help</span>
+          <span id="help-toggle-state">Info</span>
+        </button>
+      </div>
+    </div>
+    <aside id="lobby-panel" data-open="false" aria-hidden="true" aria-label="Morrowind App servers">
+      <div id="lobby-panel-head">
+        <div id="lobby-panel-title">Morrowind App Servers</div>
+        <div id="lobby-header-controls">
+          <div id="lobby-player-control" class="lobby-field">
+            <label for="lobby-display-name">Player name</label>
+            <input id="lobby-display-name" type="text" maxlength="32" autocomplete="nickname">
+          </div>
+          <button id="lobby-session-save" type="button">Save</button>
+          <button id="lobby-refresh" type="button">Refresh</button>
+        </div>
+        <div id="lobby-status" hidden></div>
+        <button id="lobby-close" type="button" aria-label="Close lobby">&times;</button>
+      </div>
+      <div id="lobby-frame-body">
+        <div id="lobby-join-details" hidden></div>
+        <div id="lobby-tab-list" role="tablist" aria-label="Multiplayer lobby sections">
+          <button id="lobby-tab-public" type="button" role="tab" aria-selected="true" aria-controls="lobby-instances-section" data-lobby-tab="public">Server Browser</button>
+          <button id="lobby-tab-host" type="button" role="tab" aria-selected="false" aria-controls="lobby-create-section" data-lobby-tab="host">Host</button>
+          <button id="lobby-tab-direct" type="button" role="tab" aria-selected="false" aria-controls="lobby-direct-section" data-lobby-tab="direct">Direct Join</button>
+        </div>
+        <section id="lobby-instances-section" class="command-section lobby-tab-panel" role="tabpanel" aria-labelledby="lobby-tab-public" data-lobby-panel="public">
+          <div class="lobby-browser-head">
+            <h2 id="lobby-instances-title">Server Browser</h2>
+            <div id="lobby-browser-count" class="lobby-browser-count">0 servers</div>
+            <div class="lobby-browser-tools">
+              <input id="lobby-filter-text" type="search" maxlength="80" autocomplete="off" placeholder="Search servers">
+              <select id="lobby-filter-kind" aria-label="Server filter">
+                <option value="all" selected>All servers</option>
+                <option value="open">Open only</option>
+                <option value="dedicated">Dedicated</option>
+                <option value="client">Client hosts</option>
+                <option value="locked">Passworded</option>
+                <option value="owned">Owned</option>
+              </select>
+            </div>
+          </div>
+          <div class="command-section-body">
+            <div id="lobby-instance-list"></div>
+          </div>
+        </section>
+        <section id="lobby-create-section" class="command-section lobby-tab-panel" role="tabpanel" aria-labelledby="lobby-tab-host" data-lobby-panel="host" hidden>
+          <h2 id="lobby-create-title">Host Server</h2>
+          <div class="command-section-body">
+            <div class="lobby-host-grid">
+              <div class="lobby-field wide">
+                <label for="lobby-instance-name">Server name</label>
+                <input id="lobby-instance-name" type="text" maxlength="48" value="Balmora Co-op">
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-instance-password">Password</label>
+                <input id="lobby-instance-password" type="password" maxlength="80" autocomplete="new-password" placeholder="Optional">
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-instance-max">Players</label>
+                <input id="lobby-instance-max" type="number" min="2" max="16" step="1" value="4">
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-ruleset">Rules</label>
+                <select id="lobby-ruleset">
+                  <option value="vanilla" selected>Vanilla co-op</option>
+                  <option value="roleplay">Roleplay</option>
+                  <option value="exploration">Exploration</option>
+                  <option value="pvp">PvP skirmish</option>
+                </select>
+              </div>
+              <div class="lobby-field wide">
+                <label for="lobby-instance-description">Description</label>
+                <textarea id="lobby-instance-description" maxlength="160" rows="2">Vanilla co-op run</textarea>
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-start-cell">Start</label>
+                <select id="lobby-start-cell">
+                  <option value="-3, -2" selected>Balmora</option>
+                  <option value="-2, -9">Seyda Neen</option>
+                  <option value="3, -10">Vivec</option>
+                  <option value="-2, 6">Ald'ruhn</option>
+                </select>
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-pace">Pace</label>
+                <select id="lobby-pace">
+                  <option value="casual">Casual</option>
+                  <option value="standard" selected>Standard</option>
+                  <option value="dangerous">Dangerous</option>
+                </select>
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-time-of-day">Time</label>
+                <select id="lobby-time-of-day">
+                  <option value="day" selected>Day</option>
+                  <option value="dusk">Dusk</option>
+                  <option value="night">Night</option>
+                </select>
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-weather">Weather</label>
+                <select id="lobby-weather">
+                  <option value="clear" selected>Clear</option>
+                  <option value="regional">Regional</option>
+                </select>
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-combat">Combat</label>
+                <select id="lobby-combat">
+                  <option value="co-op" selected>Co-op</option>
+                  <option value="roleplay">Roleplay</option>
+                  <option value="pvp">PvP</option>
+                </select>
+              </div>
+            </div>
+            <div id="lobby-create-error" role="alert" hidden></div>
+            <button id="lobby-create" type="button">Host and play</button>
+          </div>
+        </section>
+        <section id="lobby-direct-section" class="command-section lobby-tab-panel" role="tabpanel" aria-labelledby="lobby-tab-direct" data-lobby-panel="direct" hidden>
+          <h2 id="lobby-direct-title">Direct Join</h2>
+          <div class="command-section-body">
+            <div class="lobby-direct-grid">
+              <div class="lobby-field">
+                <label for="lobby-direct-target">Server ID or address</label>
+                <input id="lobby-direct-target" type="text" maxlength="220" autocomplete="off" placeholder="inst_... or 169.155.120.92:26965">
+              </div>
+              <div class="lobby-field">
+                <label for="lobby-direct-password">Password</label>
+                <input id="lobby-direct-password" type="password" maxlength="80" autocomplete="current-password" placeholder="Optional">
+              </div>
+              <button id="lobby-direct-join" type="button">Join</button>
+            </div>
+            <div id="lobby-direct-error" role="alert" hidden></div>
+          </div>
+        </section>
+      </div>
+    </aside>
+    <aside id="account-panel" data-open="false" aria-hidden="true" aria-label="Account and cloud saves">
+      <div id="account-panel-head">
+        <div id="account-panel-title">Account</div>
+        <button id="account-close" type="button" aria-label="Close account">&times;</button>
+      </div>
+      <section id="account-auth-section" class="command-section" aria-labelledby="account-auth-title">
+        <h2 id="account-auth-title">Sign In</h2>
+        <div class="command-section-body account-grid">
+          <div class="lobby-field">
+            <label for="account-username">Username</label>
+            <input id="account-username" type="text" maxlength="32" autocomplete="username">
+          </div>
+          <div class="lobby-field">
+            <label for="account-password">Password</label>
+            <input id="account-password" type="password" maxlength="256" autocomplete="current-password">
+          </div>
+          <div class="command-actions">
+            <button id="account-login" type="button">Sign in</button>
+            <button id="account-register" type="button">Create</button>
+          </div>
+          <div id="account-error" role="alert" hidden></div>
+        </div>
+      </section>
+      <section id="account-recovery-section" class="command-section" aria-labelledby="account-recovery-title">
+        <h2 id="account-recovery-title">Password Reset</h2>
+        <div class="command-section-body account-grid">
+          <div class="lobby-field">
+            <label for="account-recovery-username">Username</label>
+            <input id="account-recovery-username" type="text" maxlength="32" autocomplete="username">
+          </div>
+          <div class="lobby-field">
+            <label for="account-recovery-code">Recovery code</label>
+            <input id="account-recovery-code" type="password" maxlength="128" autocomplete="one-time-code">
+          </div>
+          <div class="lobby-field">
+            <label for="account-recovery-password">New password</label>
+            <input id="account-recovery-password" type="password" maxlength="256" autocomplete="new-password">
+          </div>
+          <button id="account-recover" type="button">Reset password</button>
+        </div>
+      </section>
+      <section id="account-profile-section" class="command-section" aria-labelledby="account-profile-title" hidden>
+        <h2 id="account-profile-title">Profile</h2>
+        <div class="command-section-body account-grid">
+          <div class="account-signed-row">
+            <div>
+              <div id="account-name" class="account-name"></div>
+              <div id="account-username-view" class="account-meta"></div>
+            </div>
+            <button id="account-logout" type="button">Sign out</button>
+          </div>
+          <div class="lobby-field">
+            <label for="account-profile-name">Username</label>
+            <input id="account-profile-name" type="text" maxlength="32" autocomplete="nickname">
+          </div>
+          <button id="account-save-profile" type="button">Save username</button>
+          <div class="lobby-field">
+            <label for="account-current-password">Current password</label>
+            <input id="account-current-password" type="password" maxlength="256" autocomplete="current-password">
+          </div>
+          <div class="lobby-field">
+            <label for="account-new-password">New password</label>
+            <input id="account-new-password" type="password" maxlength="256" autocomplete="new-password">
+          </div>
+          <button id="account-change-password" type="button">Reset password</button>
+          <div id="account-recovery-meta" class="account-meta"></div>
+          <button id="account-download-recovery" type="button">Download new recovery code</button>
+        </div>
+      </section>
+      <section id="cloud-save-section" class="command-section" aria-labelledby="cloud-save-title">
+        <h2 id="cloud-save-title">Cloud Saves</h2>
+        <div class="command-section-body account-grid">
+          <div id="cloud-save-status" class="cloud-save-meta">Not signed in</div>
+          <div class="lobby-field">
+            <label for="cloud-save-label">Label</label>
+            <input id="cloud-save-label" type="text" maxlength="64" value="Browser save">
+          </div>
+          <button id="cloud-save-upload" type="button">Upload current saves</button>
+          <div id="cloud-save-list" aria-live="polite"></div>
+        </div>
+      </section>
+    </aside>
+    <aside id="chat-panel" data-open="false" aria-hidden="true" aria-label="Global chat">
+      <div id="chat-panel-head">
+        <div id="chat-panel-title">Chat</div>
+        <button id="chat-close" type="button" aria-label="Close chat">&times;</button>
+      </div>
+      <section class="command-section" aria-labelledby="chat-room-title">
+        <h2 id="chat-room-title">Rooms</h2>
+        <div class="command-section-body account-grid">
+          <div class="lobby-field">
+            <label for="chat-room">Room</label>
+            <select id="chat-room">
+              <option value="global" selected>Global</option>
+              <option value="multiplayer">Multiplayer</option>
+              <option value="help">Help</option>
+              <option value="trade">Trade</option>
+            </select>
+          </div>
+          <button id="chat-status" class="chat-meta" type="button">Sign in to send</button>
+          <div id="chat-error" role="alert" hidden></div>
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="chat-messages-title">
+        <h2 id="chat-messages-title">Messages</h2>
+        <div class="command-section-body account-grid">
+          <div id="chat-message-list" aria-live="polite"></div>
+          <div id="chat-form">
+            <div class="lobby-field">
+              <label for="chat-input">Message</label>
+              <input id="chat-input" type="text" maxlength="500" autocomplete="off">
+            </div>
+            <button id="chat-send" type="button">Send</button>
+          </div>
+        </div>
+      </section>
+    </aside>
+    <aside id="help-panel" data-open="false" aria-hidden="true" aria-label="Morrowind App help">
+      <div id="help-panel-head">
+        <div id="help-panel-title">Help</div>
+        <button id="help-close" type="button" aria-label="Close help">&times;</button>
+      </div>
+      <section class="command-section" aria-labelledby="help-basics-title">
+        <h2 id="help-basics-title">Basics</h2>
+        <div class="command-section-body help-copy">
+          <ul>
+            <li><strong>Single Player:</strong> starts Morrowind in your browser.</li>
+            <li><strong>Multiplayer:</strong> opens the server browser so you can host or join a game.</li>
+            <li><strong>Tools:</strong> controls render quality, fullscreen, touch controls, saves, and mods.</li>
+            <li><strong>Account:</strong> sign in for cloud saves and chat access.</li>
+            <li><strong>Chat:</strong> opens the site chat rooms.</li>
+            <li><strong>Saves:</strong> browser saves stay on this device unless you upload, import, or export them.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="help-mobile-title">
+        <h2 id="help-mobile-title">Mobile</h2>
+        <div class="command-section-body help-copy">
+          <ul>
+            <li>Use the left stick to move and the right pad to look.</li>
+            <li>Open Tools if touch controls or render quality need adjustment.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="help-tech-title">
+        <h2 id="help-tech-title">Tech</h2>
+        <div class="command-section-body help-copy">
+          <p>Morrowind runs here through open-source engine and browser runtime work. The original game data is still required.</p>
+          <ul class="help-tech-links">
+            <li><a href="https://github.com/OpenMW/openmw" target="_blank" rel="noopener noreferrer">OpenMW</a> - open-source Morrowind engine.</li>
+            <li><a href="https://github.com/TES3MP/TES3MP" target="_blank" rel="noopener noreferrer">TES3MP</a> - multiplayer built on OpenMW.</li>
+            <li><a href="https://github.com/emscripten-core/emscripten" target="_blank" rel="noopener noreferrer">Emscripten</a> - compiles native code to WebAssembly.</li>
+            <li><a href="https://webrtc.googlesource.com/src" target="_blank" rel="noopener noreferrer">WebRTC</a> - browser peer connection technology.</li>
+          </ul>
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="help-support-title">
+        <h2 id="help-support-title">Support</h2>
+        <div class="command-section-body help-copy">
+          <a id="help-support-link" href="https://ko-fi.com/korze" target="_blank" rel="noopener noreferrer">Support on Ko-fi</a>
+        </div>
+      </section>
+    </aside>
+    <aside id="command-panel" data-open="false" aria-hidden="true" aria-label="Morrowind App tools">
+      <div id="command-panel-head">
+        <div id="command-panel-title">Tools</div>
+        <button id="command-close" type="button" aria-label="Close tools">&times;</button>
+      </div>
+      <section class="command-section" aria-labelledby="command-display-title">
+        <h2 id="command-display-title">Display</h2>
+        <div class="command-section-body">
+          <div class="command-row">
+            <span class="command-label">Render</span>
+            <span id="command-render-size" class="command-value"></span>
+          </div>
+          <div id="command-render-quality" role="group" aria-label="Render resolution">
+            <button type="button" data-render-profile="low" title="Low render resolution">Lo</button>
+            <button type="button" data-render-profile="med" title="Medium render resolution">Med</button>
+            <button type="button" data-render-profile="high" title="High render resolution">Hi</button>
+          </div>
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="command-controls-title">
+        <h2 id="command-controls-title">Controls</h2>
+        <div class="command-section-body">
+          <div class="command-row">
+            <span class="command-label">Touch</span>
+            <span id="command-touch-state" class="command-value">Auto</span>
+          </div>
+          <div id="command-touch-mode" role="group" aria-label="Touch controls">
+            <button type="button" data-touch-mode="auto">Auto</button>
+            <button type="button" data-touch-mode="on">On</button>
+            <button type="button" data-touch-mode="off">Off</button>
+          </div>
+          <div class="command-row">
+            <label class="command-label" for="command-touch-look">Look</label>
+            <span id="command-touch-look-value" class="command-value">3</span>
+          </div>
+          <input id="command-touch-look" type="range" min="1" max="5" step="1" value="3">
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="command-session-title">
+        <h2 id="command-session-title">Session</h2>
+        <div class="command-section-body">
+          <div class="command-row">
+            <span class="command-label">Fullscreen</span>
+            <span id="command-fullscreen-state" class="command-value">Off</span>
+          </div>
+          <div class="command-row">
+            <span class="command-label">Saves</span>
+            <span class="command-value">Browser storage</span>
+          </div>
+          <div class="command-actions">
+            <button id="fullscreen-toggle" type="button" title="Toggle fullscreen">Fullscreen</button>
+            <button id="sync-save" type="button" title="Sync browser saves now">Sync</button>
+            <button id="export-save" type="button" title="Export saves and settings">Export</button>
+            <button id="import-save" type="button" title="Import saves and settings">Import</button>
+          </div>
+          <input id="import-save-file" type="file" accept=".tar,application/x-tar,application/octet-stream" hidden>
+        </div>
+      </section>
+      <section id="main-menu-actions" class="command-section" aria-labelledby="command-new-game-title" hidden>
+        <h2 id="command-new-game-title">New Game</h2>
+        <div class="command-section-body command-actions">
+          <button id="new-blank" type="button">New blank</button>
+          <button id="new-default" type="button">New default</button>
+        </div>
+      </section>
+      <section class="command-section" aria-labelledby="command-mods-title">
+        <h2 id="command-mods-title">Add-ons</h2>
+        <div class="command-section-body">
+          <div id="command-mod-list"></div>
+          <div class="command-row">
+            <span id="command-mod-status">Ready</span>
+            <button id="command-mod-apply" type="button" disabled>Apply reload</button>
+          </div>
+        </div>
+      </section>
+    </aside>
+    <div id="save-toast" hidden></div>
+    <div id="loading-overlay" hidden aria-hidden="true">
+      <img id="loading-splash" alt="">
+      <div id="loading-panel">
+        <div id="loading-text">Loading...</div>
+        <div id="loading-bar"><span></span></div>
+      </div>
+    </div>
+    <textarea id="output" readonly></textarea>
+  </main>
+  <script src="/app/057b18d036c8b4d5/modules/api-client.js"></script>
+  <script src="/app/057b18d036c8b4d5/modules/runtime-error-policy.js"></script>
+  <script src="/app/057b18d036c8b4d5/modules/openmw-runtime-policy.js"></script>
+  <script src="/app/057b18d036c8b4d5/modules/tes3mp-render-policy.js"></script>
+  <script src="/app/057b18d036c8b4d5/release-config.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/00-bootstrap.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/10-touch-input.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/20-shell-mods.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/30-multiplayer-session.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/31-multiplayer-signaling.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/32-multiplayer-relay.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/33-multiplayer-peers.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/34-multiplayer-launch.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/40-api-client.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/41-account-cloud-saves.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/42-chat.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/43-lobby-browser.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/44-lobby-events-panels.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/49-initialize-state.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/rendering-compat.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/60-runtime-manifest-home.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/61-loading-readiness.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/62-persistence-gameplay.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/63-settings-audio.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/64-save-archives.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/50-display-tools.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/65-ui-events.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/66-diagnostics.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/70-runtime-loader.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/71-tes3mp-runtime-patch.js"></script>
+  <script src="/app/057b18d036c8b4d5/scripts/72-runtime-boot.js"></script>
+</body>
+</html>

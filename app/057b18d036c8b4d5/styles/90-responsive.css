@@ -1,0 +1,289 @@
+
+    #main-menu-actions {
+      display: block;
+    }
+
+    #main-menu-actions[hidden] {
+      display: none;
+    }
+
+    @media (max-width: 720px), (hover: none) and (pointer: coarse) {
+      #topbar {
+        gap: 8px;
+      }
+
+      #progress {
+        width: 96px;
+      }
+
+      #status {
+        font-size: 12px;
+      }
+
+      #save-tools,
+      #lobby-tools,
+      #account-tools,
+      #chat-tools,
+      #help-tools {
+        position: static;
+        top: auto;
+        right: auto;
+        width: auto;
+        transform: none !important;
+      }
+
+      #ribbon-dock {
+        position: fixed;
+        top: max(8px, env(safe-area-inset-top));
+        right: max(8px, env(safe-area-inset-right));
+        left: max(8px, env(safe-area-inset-left));
+        z-index: 150;
+        display: grid;
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 4px;
+        pointer-events: none;
+      }
+
+      #shell[data-status-active="true"] #ribbon-dock {
+        top: max(54px, calc(env(safe-area-inset-top) + 54px));
+      }
+
+      #shell[data-status-active="true"] #save-tools,
+      #shell[data-status-active="true"] #lobby-tools,
+      #shell[data-status-active="true"] #account-tools,
+      #shell[data-status-active="true"] #chat-tools,
+      #shell[data-status-active="true"] #help-tools {
+        transform: none;
+      }
+
+      #command-toggle,
+      #lobby-toggle,
+      #account-toggle,
+      #chat-toggle,
+      #help-toggle {
+        width: 100%;
+        min-height: 46px;
+        flex-direction: column;
+        justify-content: center;
+        gap: 3px;
+        border: 1px solid rgba(176, 143, 74, 0.68);
+        border-radius: 3px;
+        padding: 5px 2px;
+        transform: none !important;
+        font-size: 10px;
+        line-height: 11px;
+        text-align: center;
+      }
+
+      #command-toggle::before,
+      #lobby-toggle::before,
+      #account-toggle::before,
+      #chat-toggle::before,
+      #help-toggle::before {
+        border-left: 0;
+      }
+
+      #command-toggle::after,
+      #lobby-toggle::after,
+      #account-toggle::after,
+      #chat-toggle::after,
+      #help-toggle::after {
+        display: none;
+      }
+
+      #command-toggle-label,
+      #lobby-toggle-label,
+      #account-toggle-label,
+      #chat-toggle-label,
+      #help-toggle-label {
+        max-width: 100%;
+        overflow: hidden;
+        text-align: center;
+        text-overflow: ellipsis;
+      }
+
+      .ribbon-icon {
+        flex-basis: 18px;
+        width: 18px;
+        height: 18px;
+      }
+
+      #command-panel,
+      #account-panel,
+      #chat-panel,
+      #help-panel {
+        top: 62px;
+        width: calc(100vw - 16px);
+        max-height: calc(100vh - 62px);
+        padding: 10px;
+      }
+
+      #shell[data-status-active="true"] #command-panel,
+      #shell[data-status-active="true"] #account-panel,
+      #shell[data-status-active="true"] #chat-panel,
+      #shell[data-status-active="true"] #help-panel {
+        top: 108px;
+        max-height: calc(100vh - 108px);
+      }
+
+      #lobby-panel {
+        width: calc(100vw - 16px);
+        height: calc(100vh - 16px);
+        max-height: calc(100vh - 16px);
+        top: calc(50% + 31px);
+        height: calc(100vh - 78px);
+        max-height: calc(100vh - 78px);
+        padding: 10px;
+      }
+
+      #shell[data-status-active="true"] #lobby-panel {
+        top: calc(50% + 54px);
+        height: calc(100vh - 124px);
+        max-height: calc(100vh - 124px);
+      }
+
+      #command-close,
+      #lobby-close,
+      #account-close,
+      #chat-close,
+      #help-close {
+        min-width: 32px;
+        width: 32px;
+        min-height: 32px;
+        height: 32px;
+      }
+
+      #chat-panel-head {
+        grid-template-columns: minmax(0, 1fr) 32px;
+      }
+
+      #lobby-panel-head {
+        grid-template-columns: minmax(0, 1fr) 32px;
+        align-items: center;
+      }
+
+      #lobby-header-controls {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-self: stretch;
+        grid-template-columns: minmax(0, 1fr) repeat(2, minmax(76px, auto));
+      }
+
+      #lobby-close {
+        grid-column: 2;
+        grid-row: 1;
+      }
+
+      #lobby-player-control {
+        grid-column: 1 / -1;
+        grid-template-columns: auto minmax(0, 1fr);
+      }
+
+      #lobby-frame-body {
+        grid-template-columns: 1fr;
+        grid-template-rows: auto auto minmax(220px, 1fr);
+        overflow-y: auto;
+      }
+
+      .lobby-host-grid,
+      .lobby-direct-grid,
+      .lobby-instance-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .lobby-instance {
+        grid-template-columns: 1fr;
+        grid-template-rows: 22px 36px 34px 42px;
+        height: 154px;
+        gap: 5px;
+      }
+
+      .lobby-join-controls {
+        grid-column: 1;
+        grid-row: auto;
+        grid-template-columns: 1fr;
+      }
+
+      .lobby-join-controls.password-required {
+        grid-template-columns: minmax(0, 1fr) minmax(96px, 128px);
+        grid-template-rows: 42px;
+      }
+
+      .lobby-instance-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .lobby-browser-tools {
+        grid-template-columns: 1fr;
+      }
+
+      #touch-move-zone {
+        width: 118px;
+        height: 118px;
+      }
+
+      #touch-stick-base {
+        inset: 15px;
+      }
+
+      #touch-action-zone {
+        grid-template-columns: repeat(3, 50px);
+        gap: 6px;
+      }
+
+      .touch-action-button {
+        height: 44px;
+        padding-inline: 4px;
+        font-size: 11px;
+        line-height: 12px;
+      }
+
+      #touch-look-zone {
+        bottom: max(168px, calc(env(safe-area-inset-bottom) + 168px));
+        width: clamp(120px, 38vw, 180px);
+        height: clamp(126px, 28vh, 210px);
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 420px) {
+      #touch-action-zone {
+        grid-template-columns: repeat(4, 48px);
+        gap: 5px;
+      }
+
+      #touch-look-zone {
+        top: max(64px, calc(env(safe-area-inset-top) + 64px));
+        bottom: auto;
+        width: clamp(96px, 20vw, 168px);
+        height: clamp(84px, calc(100vh - 128px), 118px);
+      }
+
+      #shell[data-touch-controls="true"] #touch-look-zone {
+        right: max(236px, calc(env(safe-area-inset-right) + 236px));
+      }
+
+      #shell[data-status-active="true"] #ribbon-dock {
+        top: max(8px, env(safe-area-inset-top));
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) and (orientation: landscape) and (max-height: 340px) and (max-width: 520px) {
+      #touch-look-zone {
+        width: 90px;
+        height: 70px;
+      }
+
+      #shell[data-touch-controls="true"] #touch-look-zone {
+        right: max(230px, calc(env(safe-area-inset-right) + 230px));
+      }
+    }
+
+    @media (hover: none) and (pointer: coarse) and (orientation: portrait) {
+      #shell[data-shell-controls="true"] #canvas-wrap {
+        top: max(62px, calc(env(safe-area-inset-top) + 62px));
+      }
+
+      #shell[data-shell-controls="true"][data-status-active="true"] #canvas-wrap {
+        top: max(108px, calc(env(safe-area-inset-top) + 108px));
+      }
+    }

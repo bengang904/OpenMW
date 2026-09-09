@@ -1,0 +1,157 @@
+    @font-face {
+      font-family: "Vvardenfell Text";
+      src: url("/static/f6d3d8d6ba75ed3f/assets/fonts/alegreya-sans-400.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Vvardenfell Text";
+      src: url("/static/f6d3d8d6ba75ed3f/assets/fonts/alegreya-sans-500.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 500;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Vvardenfell Text";
+      src: url("/static/f6d3d8d6ba75ed3f/assets/fonts/alegreya-sans-700.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Vvardenfell Display";
+      src: url("/static/f6d3d8d6ba75ed3f/assets/fonts/cinzel-400.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 400;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Vvardenfell Display";
+      src: url("/static/f6d3d8d6ba75ed3f/assets/fonts/cinzel-600.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 600;
+      font-display: swap;
+    }
+
+    @font-face {
+      font-family: "Vvardenfell Display";
+      src: url("/static/f6d3d8d6ba75ed3f/assets/fonts/cinzel-700.woff2") format("woff2");
+      font-style: normal;
+      font-weight: 700;
+      font-display: swap;
+    }
+
+    :root {
+      --overlay-text-font: "Vvardenfell Text", Arial, Helvetica, sans-serif;
+      --overlay-display-font: "Vvardenfell Display", Georgia, "Times New Roman", serif;
+      --overlay-bg: rgba(5, 4, 3, 0.74);
+      --overlay-bg-strong: rgba(5, 4, 3, 0.84);
+      --overlay-bg-soft: rgba(10, 7, 4, 0.58);
+      --overlay-border: rgba(149, 121, 68, 0.56);
+      --overlay-border-soft: rgba(149, 121, 68, 0.38);
+      --overlay-gold: #efd89a;
+      --overlay-text: #e4d6b2;
+      --overlay-muted: #c8b889;
+      --overlay-hover: rgba(38, 25, 12, 0.82);
+    }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: #10100d;
+      color: #e9e0c8;
+      font-family: var(--overlay-text-font);
+    }
+
+    #shell {
+      position: fixed;
+      inset: 0;
+      display: block;
+      background: #10100d;
+    }
+
+    #shell:fullscreen {
+      width: 100%;
+      height: 100%;
+      background: #000;
+    }
+
+    #topbar {
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 120;
+      min-height: 44px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 8px 12px;
+      background: var(--overlay-bg-strong);
+      border-bottom: 1px solid var(--overlay-border-soft);
+      box-sizing: border-box;
+      pointer-events: none;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.28);
+    }
+
+    #topbar[hidden] {
+      display: none;
+    }
+
+    #topbar progress,
+    #topbar img {
+      pointer-events: auto;
+    }
+
+    #topbar img {
+      width: 28px;
+      height: 28px;
+      flex: 0 0 auto;
+    }
+
+    #status {
+      min-width: 0;
+      flex: 1 1 auto;
+      color: #d9cda8;
+      font-family: var(--overlay-text-font);
+      font-size: 14px;
+      line-height: 18px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    #progress {
+      width: min(280px, 28vw);
+      height: 12px;
+      accent-color: #8f7d3f;
+    }
+
+    #canvas-wrap {
+      position: absolute;
+      inset: 0;
+      z-index: 0 !important;
+      overflow: hidden;
+      background: #000;
+    }
+
+    canvas {
+      position: relative !important;
+      z-index: 0 !important;
+      display: block;
+      width: 100% !important;
+      height: 100% !important;
+      max-width: 100vw !important;
+      max-height: 100vh !important;
+      background: #000;
+      outline: none;
+    }
+
+    #touch-controls {
